@@ -86,6 +86,8 @@ function renderProducts(data) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const cartContainer = document.getElementById("cart-container");
+
     document.getElementById("cart-button").addEventListener("click", async () => {
         cartContainer.classList.toggle("hidden");
         await loadCart();
@@ -115,13 +117,13 @@ async function loadCart() {
                 <h3>${item.product.title}</h3>
                 <p>Cantidad: ${item.quantity}</p>
                 <p>Precio: $${item.product.price}</p>
-                    <button class="decrease-quantity" data-id="${item.product._id}">-</button>
-                    `;
+                <button class="decrease-quantity" data-id="${item.product._id}">-</button>
+                `;
                     cartItems.appendChild(div);
                 });
                 
                 cartTotal.textContent = total;
-                cartContainer.classList.toggle("hidden");
+                
                 document.querySelectorAll(".decrease-quantity").forEach(button => {
                     button.addEventListener("click", async (event) => {
                         const productId = event.target.dataset.id;

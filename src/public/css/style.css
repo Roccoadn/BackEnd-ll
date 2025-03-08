@@ -11,10 +11,6 @@ a{
 .logo-conainer{
     display: flex;
 }
-span{
-    font-size: 1.5rem;
-    font-weight:900;
-}
 nav{
     z-index: +1000;
     display: flex;
@@ -23,6 +19,10 @@ nav{
     padding: 1rem 3rem;
     background-color: #FFE600;
     color: rgb(0, 0, 0);
+    span{
+        font-size: 1.5rem;
+        font-weight:900;
+    }
     a{
         display: flex;
         column-gap:10px;
@@ -56,10 +56,6 @@ nav{
     background-color: #080808;
     color: aliceblue;
     padding: 20px 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    column-gap: 15px;
 }
 .decrease-quantity{
     height: 25px;
@@ -69,8 +65,20 @@ nav{
 #cart-items{
     display: flex;
     flex-direction: column;
-    row-gap: 15px;
-    padding: 20px 3rem;
+    padding: 20px 0;
+}
+.cart-item{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 0.5px gray;
+    padding: 10px;
+    p{
+        padding-right: 20px;
+    }
+}
+#clear-cart{
+    margin-top: 2rem;
+    margin-left: 40%;
 }
 .decrease-quantity:hover{
     background-color: #ee3535;
