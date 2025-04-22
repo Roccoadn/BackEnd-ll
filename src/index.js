@@ -6,12 +6,18 @@ import cartsRoutes from './routes/carts.route.js';
 import viewsRouter from './routes/views.route.js';
 import handlebars from 'express-handlebars';
 import mongoConnection  from './connections/mongo.js';
+import passport from 'passport';
+import sessionRoute from './routes/sessions.route.js';
+import './config/passport.js';
+
 
 const app = express();
 
 app.use (express.static(__dirname + '/public')); 
 app.use (express.json());
 app.use (express.urlencoded({extended: true}));
+app.use (passport.initialize());
+app.use ('/api/sessions', sessionRoute);
 
 app.engine('handlebars', handlebars.engine())
 app.set('view engine', 'handlebars');
