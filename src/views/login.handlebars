@@ -4,20 +4,23 @@
         <span>Mercadito DB</span>
     </a>
     <div>
-        <button id="cart-button"><i class="fa-solid fa-cart-shopping fa-xl" style="color: #000000;"></i>​</button>
+        <button id="user-button"><a href="/login"><i class="fa-solid fa-user" style="color: #000000;"></i></a></button>
+        <button id="cart-button"><i class="fa-solid fa-cart-shopping " style="color: #000000;"></i></button>
     </div>
 </nav>
 
-<div>
+<div id="main-login">
     <h1>Iniciar Sesión</h1>
     <div id="form-container">
-        <div id="login-form" style="display:none">
-        <h2>Iniciar Sesión</h2>
-        <input type="email" id="login-email" placeholder="Email">
-        <input type="password" id="login-password" placeholder="Contraseña">
-        <button onclick="iniciarSesion()">Ingresar</button>
-    </div>
+        <form action="api/sessions/login" method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-        <p>¿Todavía no estás registrado? <a href="/register">Registrate acá</a></p>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Iniciar sesión</button>
+        </form>
     </div>
+        <p>¿Todavía no estás registrado? <a href="/register">Registrate acá</a></p>
 </div>

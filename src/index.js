@@ -17,7 +17,6 @@ app.use (express.static(__dirname + '/public'));
 app.use (express.json());
 app.use (express.urlencoded({extended: true}));
 app.use (passport.initialize());
-app.use ('/api/sessions', sessionRoute);
 
 app.engine('handlebars', handlebars.engine())
 app.set('view engine', 'handlebars');
@@ -25,6 +24,7 @@ app.set('views', path.resolve(__dirname + '/views'));
 app.use ('/', viewsRouter);
 app.use ('/api/products/', productsRoutes);
 app.use ('/api/carts/', cartsRoutes);
+app.use ('/api/sessions/', sessionRoute);
 
 mongoConnection()
 

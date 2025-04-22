@@ -9,8 +9,13 @@ router.get('/login', (req, res) => {
   res.send({ status: 'success', message: 'Login route' });
 });
 
-router.post('/register', passport.authenticate('register', { session: false }), (req, res) => {
-  res.send({ status: 'success', message: 'User registered' });
+router.post('/register', (req, res, next) => {
+  passport.authenticate('register', { session: false }, (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.status(400).send('That email is already registered.');
+
+    res.send({ status: 'success', message: 'User registered.', user });
+  })(req, res, next);
 });
 
 router.post('/login', passport.authenticate('login', { session: false }), (req, res) => {

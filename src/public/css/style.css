@@ -33,6 +33,18 @@ nav{
     img{
         height: 35px;
     }
+    #user-button{
+        top: 15px;
+        right: 60px;
+        position: absolute;
+        z-index: +1;
+        background-color: #ffff;
+    }
+    #user-button:hover{
+        background-color: #eeca55;
+        color: aliceblue;
+        transition: all 5ms;
+    }
     #cart-button{
         top: 15px;
         right: 20px;
@@ -40,13 +52,11 @@ nav{
         z-index: +1;
         background-color: #ffff;
     }
-    
     #cart-button:hover{
-        background-color: #FFE600;
+        background-color: #eeca55;
         color: aliceblue;
         transition: all 5ms;
     }
-    
 }
 #cart-container{
     position: absolute;
@@ -177,3 +187,45 @@ button:hover{
 a:hover{
     text-decoration: none;
 }
+
+#main-login{
+    margin-bottom: 3rem;
+    h1{
+        text-align: center;
+        margin: 3rem 0 2rem;
+    }
+    p{
+        font-weight: bold;
+        margin-top: 3rem;
+        text-align: center;
+    }
+    a{text-decoration: none;}
+    a:hover{
+        text-decoration: underline;
+    }
+    form {
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        flex-direction: column;
+        background: rgb(167, 166, 164);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 300px;
+    }
+    
+    label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    input {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+}
+
+
