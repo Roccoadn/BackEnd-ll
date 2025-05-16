@@ -36,6 +36,7 @@ function renderProducts(products) {
 
   products.forEach(prod => {
     const div = document.createElement('div');
+    div.classList.add('product-card');
     div.innerHTML = `
       <h3>${prod.title}</h3>
       <p>${prod.description}</p>
