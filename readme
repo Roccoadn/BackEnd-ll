@@ -14,11 +14,11 @@ Evitar enviar información sensible del usuario. Enviar un DTO (Data Transfer Ob
 
 
 Sistema de Recuperación de Contraseña:
-Implementar un sistema de recuperación de contraseña que envíe un correo con un botón para restablecer la contraseña. []
+Implementar un sistema de recuperación de contraseña que envíe un correo con un botón para restablecer la contraseña. [x]
 
-El enlace del correo debe expirar después de una hora de ser enviado. []
+El enlace del correo debe expirar después de una hora de ser enviado. [x]
 
-Evitar que el usuario pueda restablecer la contraseña a la misma que tenía anteriormente. []
+Evitar que el usuario pueda restablecer la contraseña a la misma que tenía anteriormente. [x]
 
 
 Middleware de Autorización:
@@ -32,4 +32,4 @@ Aplicar una arquitectura más profesional en el servidor, utilizando patrones de
 
 
 Mejora en la Lógica de Compra:
-Profundizar en los roles de los usuarios y las autorizaciones aplicables a cada rol en el contexto de las compras dentro del ecommerce. []
+Profundizar en los roles de los usuarios y las autorizaciones aplicables a cada rol en el contexto de las compras dentro del ecommerce. [x]
