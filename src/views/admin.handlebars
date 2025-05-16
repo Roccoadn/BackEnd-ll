@@ -1,0 +1,34 @@
+<nav>
+    <a id="logo-container" href="/">
+        <img src="https://imgs.search.brave.com/ruD94iNhT4-dcL8jQR-YELW0ad94Hf-03sN-4bIOuTc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb21w/YW5pZXNsb2dvLmNv/bS9pbWcvb3JpZy9N/RUxJLWVjMGMwZTRm/LnBuZz90PTE3MjAy/NDQ0OTI" alt="logo">
+        <span>Mercadito DB</span>
+    </a>
+    <div>
+        <button id="user-button"><a href="/login"><i class="fa-solid fa-user" style="color: #000000;"></i></a></button>
+        <button id="cart-button"><i class="fa-solid fa-cart-shopping " style="color: #000000;"></i></button>
+    </div>
+</nav>
+
+<h1>Panel de Administración de Productos</h1>
+
+<section id="create-product">
+  <h2>Crear nuevo producto</h2>
+  <form id="createForm">
+    <input type="text" name="title" placeholder="Título" required />
+    <input type="text" name="description" placeholder="Descripción" required />
+    <input type="number" name="price" placeholder="Precio" required />
+    <input type="number" name="stock" placeholder="Stock" required />
+    <input type="text" name="thumbnail" placeholder="URL de imagen" required />
+    <button type="submit">Crear</button>
+  </form>
+</section>
+
+<section id="product-list">
+  <h2>Lista de productos</h2>
+  <div id="productsContainer"></div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/admin.js" defer></script>
+
+<script src="/js/adminProducts.js"></script>

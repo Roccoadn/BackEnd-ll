@@ -14,4 +14,12 @@ router.get('/register',(req, res) => {
   res.render('register',{})
 })
 
+router.get('/admin', (req, res) => {
+  res.render('admin');
+});
+
+router.get('/reset-password/:token', (req, res) => {
+  res.render('resetPassword', { token: req.params.token });
+});
+
 export default router;

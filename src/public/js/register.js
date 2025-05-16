@@ -1,34 +1,30 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('register');
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const userData = {
-            first_name: document.getElementById('first-name').value,
-            last_name: document.getElementById('last-name').value,
-            email: document.getElementById('email').value,
-            age: parseInt(document.getElementById('age').value),
-            password: document.getElementById('password').value
-        };
-    
-        const response = await fetch('/api/sessions/register', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        });
-    
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Error:', errorText);
-            alert('Error al registrarse: ' + errorText);
-            return;
-        }
-    
-        const data = await response.json();
-        console.log(data);
-        alert('Usuario registrado correctamente!');
+document.getElementById('registerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const data = Object.fromEntries(new FormData(e.target));
+
+  const res = await fetch('/api/sessions/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+
+  if (result.status === 'success') {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Usuario registrado!',
+      text: 'Redirigiendo al login...',
+      timer: 2000,
+      showConfirmButton: false
     });
+    setTimeout(() => location.href = '/login', 2000);
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: result.message || 'Error al registrar el usuario'
+    });
+  }
 });
-  

@@ -1,8 +1,35 @@
-- metodo DELETE en api/carts/:cid/products/:pid []
+Entrega Final
 
-- metodo PUT en api/carts/:cid []
+Consigna:
+Mejorar la arquitectura del servidor desarrollado durante el curso, enfocándose en la implementación de patrones de diseño, manejo de roles y autorización, así como en la mejora de la lógica de negocio del ecommerce.
 
-- metodo PUT en api/carts/:cid/products/:pid []
+Aspectos a Incluir:
 
-- metodo DELETE en api/carts/:cid 
+Patrón Repository:
+Implementar el patrón Repository para trabajar con el DAO (Data Access Object) dentro de la lógica de negocio. [x]
 
+
+Modificación de la Ruta /current:
+Evitar enviar información sensible del usuario. Enviar un DTO (Data Transfer Object) que contenga solo la información necesaria y no sensible. [x]
+
+
+Sistema de Recuperación de Contraseña:
+Implementar un sistema de recuperación de contraseña que envíe un correo con un botón para restablecer la contraseña. []
+
+El enlace del correo debe expirar después de una hora de ser enviado. []
+
+Evitar que el usuario pueda restablecer la contraseña a la misma que tenía anteriormente. []
+
+
+Middleware de Autorización:
+Crear un middleware que trabaje junto con la estrategia “current” para limitar el acceso a ciertos endpoints:
+Solo el administrador puede crear, actualizar y eliminar productos. [x]
+
+Solo el usuario puede agregar productos a su carrito. [x]
+
+Arquitectura Profesional:
+Aplicar una arquitectura más profesional en el servidor, utilizando patrones de diseño, manejo de variables de entorno y técnicas avanzadas como mailing. [x]
+
+
+Mejora en la Lógica de Compra:
+Profundizar en los roles de los usuarios y las autorizaciones aplicables a cada rol en el contexto de las compras dentro del ecommerce. []

@@ -7,7 +7,9 @@ import viewsRouter from './routes/views.route.js';
 import handlebars from 'express-handlebars';
 import mongoConnection  from './connections/mongo.js';
 import passport from 'passport';
+import usersRouter from './routes/users.route.js';
 import sessionRoute from './routes/sessions.route.js';
+import resetRouter from './routes/reset.route.js';
 import './config/passport.js';
 
 
@@ -22,9 +24,11 @@ app.engine('handlebars', handlebars.engine())
 app.set('view engine', 'handlebars');
 app.set('views', path.resolve(__dirname + '/views'));
 app.use ('/', viewsRouter);
-app.use ('/api/products/', productsRoutes);
-app.use ('/api/carts/', cartsRoutes);
-app.use ('/api/sessions/', sessionRoute);
+app.use ('/api/products', productsRoutes);
+app.use ('/api/carts', cartsRoutes);
+app.use ('/api/sessions', sessionRoute);
+app.use('/api/users', usersRouter);
+app.use('/api/reset', resetRouter);
 
 mongoConnection()
 

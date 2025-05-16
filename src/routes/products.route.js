@@ -1,16 +1,17 @@
 import { Router } from "express";  
 import { upload } from "../utils.js";
 import __dirname from "../utils.js";
-import productsSchema from "../models/products.model.js";
+import { ProductRepository } from "../repositories/product.repository.js";
 import path from 'path';
 
-const router = Router(); 
+const router = Router();
+const productRepo = new ProductRepository(); 
 
 router.post('/', upload.single('thumbnail'), async (req, res) => {
     if (!req.file) res.status(400).json({error: 'No se subio ningun archivo'});
     
     const product = req.body;
-    const result = await productsSchema.create({
+    const result = await productRepo.create({
         ...product, 
         thumbnail: path.resolve(__dirname + '/public/img', req.file.filename)
     });
@@ -25,7 +26,7 @@ router.get('/', async (req, res) => {
       asc: { price: 1 },
       desc: { price: -1 }
     };
-    const products = await productsSchema.paginate(
+    const products = await productRepo.paginate(
     { ...query },
       {
         limit: parseInt(limit),
@@ -44,32 +45,32 @@ router.get('/', async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
-    const productFindedById = await productsSchema.findById(id);
+    const productFindedById = await productRepo.getById(id);
     
     if (!productFindedById) return res.status(404).json({ message: "Product not found" });
 
-    res.status(201).json({ payload: productFindedById });
+    res.status(200).json({ payload: productFindedById });
   });
   
 router.put("/:id", upload.single("thumbnail"), async (req, res) => {
     const { body, params } = req;
     const { id } = params;
     const product = body;
-    const productUpdated = await productsSchema.findByIdAndUpdate(id, {
+    const productUpdated = await productRepo.update(id, {
       ...product,
       ...(req?.file?.path && { thumbnail: req.file.path }),
     }, { new: true });
   
-    res.status(201).json({ message: "Producto actualizado con exito", payload: productUpdated });
+    res.status(200).json({ message: "Producto actualizado con exito", payload: productUpdated });
   });
   
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
-    const productDeleted = await productsSchema.findByIdAndDelete(id);
+    const productDeleted = await productRepo.delete(id);
 
     if (!productDeleted) return res.status(404).json({ message: "Producto no encontrado" });
   
-    res.status(201).json({ payload: productDeleted });
+    res.status(200).json({ payload: productDeleted });
   });
 
 router.get('/productsDetail/:id', async (req, res) => {
@@ -78,13 +79,14 @@ router.get('/productsDetail/:id', async (req, res) => {
     if (!id) {
       return res.status(400).send("Error: No se proporcionó un ID de producto.");
     }
-    const product = await productsSchema.findById(id).lean();
+    const product = await productRepo.getById(id);
     if (!product) {
       return res.status(404).send("Producto no encontrado.");
     }
     res.render('productsDetail', { product });
   
   } catch (error) {
+    console.error("Error al obtener el producto:", error);
     res.status(500).send("Error al obtener el producto aca");
   }
 });

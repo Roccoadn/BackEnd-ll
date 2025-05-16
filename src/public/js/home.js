@@ -52,14 +52,20 @@ function renderProducts(data) {
         addCartButton.innerText = 'Agregar al carrito';
         
         addCartButton.addEventListener('click', async () => {
-            const cartId = '67ca2b7d13c9804b87109f34';
+            const cartId = '67ca2b7d13c9804b87109f34'; // tu carrito real
             const productId = product._id;
-            
-            const url = `/api/carts/${cartId}/products/${productId}`;
-            
+            const token = localStorage.getItem('token'); // JWT token
+
+            const url = `/api/carts/${cartId}/product/${productId}`; // nota singular 'product'
+
             try {
                 const response = await fetch(url, {
-                    method: 'POST'
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ quantity: 1 })
                 });
 
                 if (response.ok) {
@@ -67,19 +73,26 @@ function renderProducts(data) {
                         text: "Producto agregado al carrito",
                         gravity: "bottom",
                         duration: 1500
-                        }).showToast();
+                    }).showToast();
+                    await loadCart();
                 } else {
+                    const errorData = await response.json();
                     Toastify({
-                        text: "error al agregar el producto al carrito",
+                        text: `Error: ${errorData.message || 'No se pudo agregar'}`,
                         gravity: "bottom",
-                        duration: 1500
-                        }).showToast();
+                        duration: 3000
+                    }).showToast();
                 }
             } catch (error) {
+                Toastify({
+                    text: "Error al conectar con el servidor",
+                    gravity: "bottom",
+                    duration: 3000
+                }).showToast();
                 console.error('Error en la solicitud:', error);
             }
-            await loadCart();
         });
+
         div.appendChild(addCartButton);
         container.appendChild(div);
     });
@@ -95,55 +108,60 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function loadCart() {
-    try {
-        const response = await fetch("/api/carts/67ca2b7d13c9804b87109f34");
-        if (!response.ok) throw new Error("Error al obtener el carrito");
-        
-        const cart = await response.json();
-        const cartContainer = document.getElementById("cart-container");
-        const cartItems = document.getElementById("cart-items");
-        const cartTotal = document.getElementById("cart-total");
-        
-        if (cartContainer) {
-            cartItems.innerHTML = "";
-            let total = 0;
-            
-            cart.productList.filter(item => item.product).forEach(item => {
-                total += item.quantity * item.product.price;
-                
-                const div = document.createElement("div");
-                div.classList.add("cart-item");
-                div.innerHTML = `
-                <h3>${item.product.title}</h3>
-                <p>Cantidad: ${item.quantity}</p>
-                <p>Precio: $${item.product.price}</p>
-                <button class="decrease-quantity" data-id="${item.product._id}">-</button>
-                `;
-                    cartItems.appendChild(div);
-                });
-                
-                cartTotal.textContent = total;
-                
-                document.querySelectorAll(".decrease-quantity").forEach(button => {
-                    button.addEventListener("click", async (event) => {
-                        const productId = event.target.dataset.id;
-                        await decreaseProductQuantity(productId);
-                        await loadCart();
-                    });
-                });
-                document.getElementById("clear-cart").addEventListener("click", async () => {
-                    await clearCart();
-                });
-            }
-        } catch (error) {
-            console.error("Error al cargar el carrito:", error);
-        }
+  try {
+    const response = await fetch("/api/carts/67ca2b7d13c9804b87109f34");
+    if (!response.ok) throw new Error("Error al obtener el carrito");
+
+    const data = await response.json();
+    const cart = data.payload;
+
+    const cartContainer = document.getElementById("cart-container");
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+
+    if (cartContainer) {
+      cartItems.innerHTML = "";
+      let total = 0;
+
+      cart.products.filter(item => item.product).forEach(item => {
+        total += item.quantity * item.product.price;
+
+        const div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+          <h3>${item.product.title}</h3>
+          <p>Cantidad: ${item.quantity}</p>
+          <p>Precio: $${item.product.price}</p>
+          <button class="decrease-quantity" data-id="${item.product._id}">-</button>
+        `;
+        cartItems.appendChild(div);
+      });
+
+      cartTotal.textContent = total;
+
+      document.querySelectorAll(".decrease-quantity").forEach(button => {
+        button.addEventListener("click", async (event) => {
+          const productId = event.target.dataset.id;
+          await decreaseProductQuantity(productId);
+          await loadCart();
+        });
+      });
+    }
+  } catch (error) {
+    console.error("Error al cargar el carrito:", error);
+  }
 }
+
+document.getElementById("clear-cart").addEventListener("click", async () => {
+  await clearCart();
+  await loadCart();
+});
+
 
 
 async function decreaseProductQuantity(productId) {
     try {
-        const response = await fetch(`/api/carts/67ca2b7d13c9804b87109f34/products/${productId}`, {
+        const response = await fetch(`/api/carts/67ca2b7d13c9804b87109f34/product/${productId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ action: 'decrease' })
