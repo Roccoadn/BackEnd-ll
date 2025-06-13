@@ -1,0 +1,33 @@
+<header>
+    <nav>
+        <a id="logo-container" href="/">
+            <img src="/img/shopynet-logo.webp" alt="ShopyNet logo">
+            <span>ShopyNet</span>
+        </a>
+        <div>
+            <button id="user-button"><a href="/login"><i class="fa-solid fa-user" style="color: #000000;"></i></a></button>
+            <button id="cart-button"><i class="fa-solid fa-cart-shopping" style="color: #000000;"></i></button>
+        </div>
+    </nav>
+</header>
+
+<div id="main">
+    <h1>Iniciar Sesión</h1>
+    <div id="form-container">
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Iniciar sesión</button>
+        </form>
+    </div>
+        <p>¿Todavía no estás registrado? <a href="/register">Registrate acá</a></p>
+        <p>¿Olvidaste tu contraseña? <a href="#" id="forgot-password-link">Restablecer</a></p>
+</div>
+
+
+<script src="/js/login.js"></script>
+<script src="/js/forgotPassword.js" type="module"></script>

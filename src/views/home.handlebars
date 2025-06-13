@@ -1,0 +1,48 @@
+<header>
+    <nav>
+        <a id="logo-container" href="/">
+            <img src="/img/shopynet-logo.webp" alt="ShopyNet logo">
+            <span>ShopyNet</span>
+        </a>
+        <div>
+            <button id="user-button"><a href="/login"><i class="fa-solid fa-user" style="color: #000000;"></i></a></button>
+            <button id="cart-button"><i class="fa-solid fa-cart-shopping" style="color: #000000;"></i></button>
+        </div>
+    </nav>
+</header>
+
+<div id="cart-container" class="hidden" data-aos="fade-left" data-aos-duration="800">
+    <h2 class="cart-title">Carrito de Compras</h2>
+    <div id="cart-items"></div>
+    <p>Total: $<span id="cart-total">0</span></p>
+    <button id="clear-cart">Vaciar Carrito</button>
+</div>
+
+<section id="hero">
+</section>
+
+<section id="principal" data-aos="fade-up">
+    <div id="select-container">
+        <label for="sort-select">Ordenar por:</label>
+        <select id="sort-select">
+            <option value="">Sin orden</option>
+            <option value="asc">Precio más bajo primero</option>
+            <option value="desc">Precio más alto primero</option>
+        </select>
+    </div>
+
+    <div id="products-container"></div>
+</section>
+
+<section>
+    <div class="pagination">
+        <button id="prevPage" disabled>Anterior</button>
+        <span id="pageInfo"></span>
+        <button id="nextPage">Siguiente</button>
+    </div>
+</section>
+
+
+<script src="js/home.js" type="module"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init();</script>

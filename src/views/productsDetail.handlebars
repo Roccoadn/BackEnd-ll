@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="/css/style.css">
+<header>
+    <nav>
+        <a id="logo-container" href="/">
+            <img src="/img/shopynet-logo.webp" alt="ShopyNet logo">
+            <span>ShopyNet</span>
+        </a>
+        <div>
+            <button id="user-button"><a href="/login"><i class="fa-solid fa-user" style="color: #000000;"></i></a></button>
+            <button id="cart-button"><i class="fa-solid fa-cart-shopping" style="color: #000000;"></i></button>
+        </div>
+    </nav>
+</header>
+
+<div id="cart-container" class="hidden">
+    <h2>Carrito de Compras</h2>
+    <div id="cart-items"></div>
+    <p>Total: $<span id="cart-total">0</span></p>
+    <button id="clear-cart">Vaciar Carrito</button>
+</div>
+
+<div id="detail-container">
+    <img src="{{product.thumbnail}}" alt="{{product.title}}">
+    <div id="detail-info">
+        <h1>{{product.title}}</h1>
+        <p>{{product.description}}</p>
+        <h2>Stock: {{product.stock}}</h2>
+        <p>Precio:<span id="price-container">${{product.price}}</span></p>
+    </div>
+</div>
+
+<a id="back-to-home" href="/">Volver a la tienda</a>
+
+<script src="\js\productsDetail.js"></script>
+<script src="js/home.js" type="module"></script>
