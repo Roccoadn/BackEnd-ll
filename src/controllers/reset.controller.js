@@ -11,7 +11,7 @@ export const requestReset = async (req, res) => {
   if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
   const token = generateToken({ email }, '1h');
-  const resetLink = `http://localhost:8080/reset-password/${token}`;
+  const resetLink = `https://shopynet.up.railway.app/reset-password/${token}`;
 
   await sendRecoveryEmail(email, resetLink);
   res.json({ message: 'Correo de recuperación enviado' });
