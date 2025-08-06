@@ -10,7 +10,6 @@ const mongoConnection = async () => {
     catch{
         console.log('Error al conectar a la base de datos');
     }
-    console.log("Mongo en producción:", process.env.MONGO_KEY);
 }
 
 export default mongoConnection;

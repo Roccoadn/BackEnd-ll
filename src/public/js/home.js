@@ -1,4 +1,4 @@
-import { api } from '../constants/environments.js'
+import { api } from './constants/environments.js'
 const { apiUrl, productsEndpoint, logoImage } = api;
 
 let currentPage = 1;
@@ -6,6 +6,8 @@ const limit = 6;
 let currentSort = "";
 
 async function getProducts(page, sort = "") {
+    const container = document.querySelector('#products-container');
+    if (!container) return;
     try {
         let url = `${apiUrl + productsEndpoint}?page=${page}&limit=${limit}`;
         if (sort) {
@@ -28,33 +30,77 @@ async function getProducts(page, sort = "") {
     }
 }
 
-document.getElementById("sort-select").addEventListener("change", (event) => {
-    currentSort = event.target.value;
-    getProducts(1, currentSort);
-});
+const sortSelect = document.getElementById("sort-select");
+if (sortSelect) {
+    sortSelect.addEventListener("change", (event) => {
+        currentSort = event.target.value;
+        getProducts(1, currentSort);
+    });
+}
 
 function renderProducts(data) {
     const container = document.querySelector('#products-container');
+    if (!container) return;
     container.innerHTML = '';
 
     data.forEach(product => {
+        const discount = (product.price * 0.85).toFixed(2);
         const div = document.createElement('div');
         div.classList.add('product-card');
         div.innerHTML = `
             <img src="${product.thumbnail}" alt="${product.title}">
             <h1>${product.title}</h1>
             <h3>${product.description}</h3>
-            <p>$${product.price}</p>  
+            <div>
+                <p>$${product.price}</p>
+                <span>$${discount}</span>
+            </div>  
             <a href="/api/products/productsDetail/${product._id}">Ver Detalles</a>  
         `;
         const addCartButton = document.createElement('button');
         addCartButton.classList.add('add-cart-button');
         addCartButton.innerText = 'Agregar al carrito';
-        
-        addCartButton.addEventListener('click', async () => {
+
+        div.appendChild(addCartButton);
+        container.appendChild(div);
+    });
+    addToCart();
+
+};
+
+function addToCart() {
+    const addCartButtons = document.getElementsByClassName("add-cart-button");
+    Array.from(addCartButtons).forEach((button, idx) => {
+        button.addEventListener('click', async () => {
+            let productId = null;
+
+            const productCard = button.closest('.product-card');
+            if (productCard) {
+                const productLink = productCard.querySelector('a[href^="/api/products/productsDetail/"]');
+                if (productLink) {
+                    productId = productLink.getAttribute('href').split('/').pop();
+                }
+            }
+
+            // Si no se encontró con el link, intenta extraerlo desde la URL actual
+            if (!productId) {
+                const urlParts = window.location.pathname.split('/');
+                const lastSegment = urlParts[urlParts.length - 1];
+                if (lastSegment && lastSegment.length > 10) { // asumiendo que el ID es tipo Mongo (_id largo)
+                    productId = lastSegment;
+                }
+            }
             const cartId = '67ca2b7d13c9804b87109f34'; // tu carrito real
-            const productId = product._id;
             const token = localStorage.getItem('token'); // JWT token
+
+            if (!productId) {
+                Toastify({
+                    text: "No se pudo identificar el producto",
+                    gravity: "bottom",
+                    duration: 3000
+                }).showToast();
+                return;
+            }
 
             const url = `/api/carts/${cartId}/product/${productId}`; // nota singular 'product'
 
@@ -96,11 +142,10 @@ function renderProducts(data) {
                 console.error('Error en la solicitud:', error);
             }
         });
-
-        div.appendChild(addCartButton);
-        container.appendChild(div);
     });
 }
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const cartContainer = document.getElementById("cart-container");
@@ -121,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await loadCart();
     });
+
 
     function handleClickOutsideCart(e) {
         const isClickInside = cartContainer.contains(e.target) || cartButton.contains(e.target);
@@ -143,53 +189,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 async function loadCart() {
-  try {
-    const response = await fetch("/api/carts/67ca2b7d13c9804b87109f34");
-    if (!response.ok) throw new Error("Error al obtener el carrito");
+    try {
+        const response = await fetch("/api/carts/67ca2b7d13c9804b87109f34");
+        if (!response.ok) throw new Error("Error al obtener el carrito");
 
-    const data = await response.json();
-    const cart = data.payload;
+        const data = await response.json();
+        const cart = data.payload;
 
-    const cartContainer = document.getElementById("cart-container");
-    const cartItems = document.getElementById("cart-items");
-    const cartTotal = document.getElementById("cart-total");
+        const cartContainer = document.getElementById("cart-container");
+        const cartItems = document.getElementById("cart-items");
+        const cartTotal = document.getElementById("cart-total");
 
-    if (cartContainer) {
-      cartItems.innerHTML = "";
-      let total = 0;
+        if (cartContainer) {
+            cartItems.innerHTML = "";
+            let total = 0;
 
-      cart.products.filter(item => item.product).forEach(item => {
-        total += item.quantity * item.product.price;
+            cart.products.filter(item => item.product).forEach(item => {
+                total += item.quantity * item.product.price;
 
-        const div = document.createElement("div");
-        div.classList.add("cart-item");
-        div.innerHTML = `
+                const div = document.createElement("div");
+                div.classList.add("cart-item");
+                div.innerHTML = `
           <h3>${item.product.title}</h3>
           <p>Cantidad: ${item.quantity}</p>
           <p>Precio: $${item.product.price}</p>
           <button class="decrease-quantity" data-id="${item.product._id}">×</button>
         `;
-        cartItems.appendChild(div);
-      });
+                cartItems.appendChild(div);
+            });
 
-      cartTotal.textContent = total;
+            cartTotal.textContent = total;
 
-      document.querySelectorAll(".decrease-quantity").forEach(button => {
-        button.addEventListener("click", async (event) => {
-          const productId = event.target.dataset.id;
-          await decreaseProductQuantity(productId);
-          await loadCart();
-        });
-      });
+            document.querySelectorAll(".decrease-quantity").forEach(button => {
+                button.addEventListener("click", async (event) => {
+                    const productId = event.target.dataset.id;
+                    await decreaseProductQuantity(productId);
+                    await loadCart();
+                });
+            });
+        }
+    } catch (error) {
+        console.error("Error al cargar el carrito:", error);
     }
-  } catch (error) {
-    console.error("Error al cargar el carrito:", error);
-  }
 }
 
 document.getElementById("clear-cart").addEventListener("click", async () => {
-  await clearCart();
-  await loadCart();
+    await clearCart();
+    await loadCart();
 });
 
 
@@ -201,9 +247,9 @@ async function decreaseProductQuantity(productId) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ action: 'decrease' })
         });
-        
+
         if (!response.ok) throw new Error("Error al reducir la cantidad del producto");
-        
+
         await loadCart();
     } catch (error) {
         console.error("Error al reducir cantidad:", error);
@@ -215,7 +261,7 @@ async function clearCart() {
         const response = await fetch(`/api/carts/67ca2b7d13c9804b87109f34`, {
             method: "DELETE"
         });
-        
+
         if (!response.ok) throw new Error("Error al vaciar el carrito");
 
         await loadCart();
@@ -224,9 +270,8 @@ async function clearCart() {
     }
 }
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
     getProducts(currentPage);
     loadCart();
+    addToCart();
 });

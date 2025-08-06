@@ -25,6 +25,9 @@ document.getElementById('registerForm').addEventListener('submit', async e => {
     setTimeout(() => location.href = '/login', 2000);
   } else {
     Swal.fire({
+      background: '#FFCC1A',
+      color: '#020202',
+      iconColor: '#020202',
       icon: 'error',
       title: 'Error',
       text: result.message || 'Error al registrar el usuario'

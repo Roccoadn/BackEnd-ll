@@ -1,84 +1,57 @@
 *{
-    font-family: "Lato", serif;
-    font-weight: 400;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
-}
-
-body{
-    position: relative;
-    background: linear-gradient(135deg,rgba(250, 247, 247, 1) 0%, rgba(242, 242, 242, 1) 50%);
+    font-family: "Lato", serif;
 }
 
 a{
     color: #080808;
 }
 
-.logo-conainer{
-    display: flex;
-}
-
 nav{
     position: fixed;
-    background-color: #ececec;
-    top: 0;
+    background-color: #fcfcfc;
+    top: -1px;
     width: 100%;
     height: 60px;
     z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 3rem;
     color: rgb(0, 0, 0);
 }
 
-nav button{
-    height: 30px;
+nav #logo-container{
+    display: flex;
+    align-items: center;
+    padding-left: 2.5rem;
 }
 
-nav span{
+nav #logo-container span{
     font-size: 1.5rem;
     font-weight:900;
+    color: #080808;
+}
+
+nav #logo-container img{
+    height: 35px; 
+}
+
+nav #nav-buttons{
+    margin-right: 2rem;
+    display: flex;
+    gap:10px;
+    z-index: +10;
+}
+
+nav #nav-buttons button{
+    padding: 5px 10px;
+    background-color: #fff;
 }
 
 nav a{
-    display: flex;
-    column-gap:10px;
     text-decoration: none;
-    color: #2D3277;
-    font-weight: bold;
-}
-
-nav img{
-    height: 35px;
-}
-
-#user-button{
-    top: 15px;
-    right: 60px;
-    position: absolute;
-    z-index: +1;
-    background-color: #ffff;
-}
-
-#user-button:hover{
-    background-color: #eeca55;
-    color: aliceblue;
-    transition: all 5ms;
-}
-
-#cart-button{
-    top: 15px;
-    right: 20px;
-    position: absolute;
-    z-index: +1;
-    background-color: #ffff;
-}
-
-#cart-button:hover{
-    background-color: #eeca55;
-    color: aliceblue;
-    transition: all 5ms;
 }
 
 #cart-container{
@@ -237,11 +210,7 @@ button:hover{
     row-gap: 1.5rem;
     column-gap: 20px;
 }
-#products-container p{
-    font-size: x-large;
-    font-weight: bold;
-    color: #FFCC1A;
-}
+
 #products-container .product-card{
     background-color: #ffff;
     display: flex;
@@ -258,6 +227,18 @@ button:hover{
     width: 150px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#products-container div span{
+    font-size: x-large;
+    color: #FFCC1A;
+    font-weight: bold;
+}
+
+#products-container p{
+    font-size: large;
+    text-decoration: line-through;
+    color: gray;
 }
 
 .pagination{
@@ -279,14 +260,29 @@ button:hover{
     color: aliceblue;
 }
 
-#detail-container{
+#section-products-detail{
+    background-color: #FFCC1A;
     padding-top: 5rem;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#detail-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 380px;
+    background-color: #fff;
+    border-radius: 16px;
+    width: fit-content;
+    border: 0.5px solid gray;
 }
 
 #detail-container img{
-    height: 350px;
+    height: 300px;
 }
 
 #detail-container #detail-info{
@@ -296,17 +292,38 @@ button:hover{
     row-gap: 15px;
 }
 
-#detail-container #detail-info #price-container{
-    color: green;
-    font-size: larger;
+#detail-container #detail-info #prices-container #price{
+    font-size: large;
+    text-decoration: line-through;
+    color: gray;
+}
+
+#detail-container #detail-info #prices-container #discount-container{
+    display: flex;
+    gap: 10px;
+}
+
+#detail-container #detail-info #prices-container #discount-container #discount{
+    font-size: xx-large;
+    color: #080808;
+}
+
+#detail-container #detail-info #prices-container #discount-container #asside-discount{
+    color: #FFCC1A;
+    padding-top: 8px;
     font-weight: bold;
-    margin-left: 20px;
+}
+
+#detail-container #detail-info button{
+    margin: 0;
+    padding: 10px 20px;
 }
 
 #back-to-home{
     color: #080808;
-    margin-left: 45%;
-    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0;
 }   
 
 a:hover{
@@ -400,5 +417,27 @@ a:hover{
     margin-right: auto;
 }
 
+@media ( max-width: 768px ){
+    #principal{
+        flex-direction: column;
+        align-items: center;
+    }
+    #products-container{
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(1fr, auto);
+    }
+    nav #logo-container{
+        padding-left: 0.5rem;
+    }
 
+    #section-products-detail{
+        height: 100%;
+    }
 
+    #detail-container{
+        height: fit-content;
+        margin: 0 2rem;
+        margin-top: 3rem;
+        flex-direction: column;
+    }
+}

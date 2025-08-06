@@ -28,6 +28,9 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
     setTimeout(() => location.href = '/', 1500);
   } else {
     Swal.fire({
+      background: '#FFCC1A',
+      color: '#020202',
+      iconColor: '#020202',
       icon: 'error',
       title: 'Error',
       text: data.message || 'Credenciales incorrectas'

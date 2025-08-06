@@ -1,7 +1,11 @@
+const { text } = require("express");
+
 document.getElementById('forgot-password-link').addEventListener('click', async (e) => {
   e.preventDefault();
 
   const { value: email } = await Swal.fire({
+    background: '#FFCC1A',
+    color: '#020202',
     title: 'Restablecer contraseña',
     input: 'email',
     inputLabel: 'Ingresá tu correo electrónico',
@@ -25,13 +29,42 @@ document.getElementById('forgot-password-link').addEventListener('click', async 
       const result = await res.json();
 
       if (res.ok) {
-        Swal.fire('Correo enviado', 'Hemos enviado un link a tu correo para reestablecer la contraseña.', 'success');
+        Swal.fire({
+          title: 'Correo enviado',
+          text: 'Hemos enviado un link a tu correo para reestablecer la contraseña.',
+          icon: 'success',
+          background: '#FFCC1A',
+          color: '#020202',
+          iconColor: '#020202',
+        });
       } else {
-        Swal.fire('Error', result.message || 'No se pudo enviar el correo.', 'error');
+        Swal.fire({
+          title: 'Error',
+          text: result.message,
+          background: '#FFCC1A',
+          color: '#020202',
+          iconColor: '#020202',
+          icon: 'error'
+        }
+          || {
+          title: 'Error',
+          text: 'No se pudo enviar el correo',
+          background: '#FFCC1A',
+          color: '#020202',
+          iconColor: '#020202',
+          icon: 'error'
+        });
       }
     } catch (err) {
       console.error('Error en la solicitud de restablecimiento de contraseña:', err);
-      Swal.fire('Error', 'Hubo un problema en el servidor.', 'error');
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema en el servidor',
+        icon: 'error',
+        background: '#FFCC1A',
+        color: '#020202',
+        iconColor: '#020202',
+      });
     }
   }
 });

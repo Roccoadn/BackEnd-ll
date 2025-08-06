@@ -83,7 +83,8 @@ router.get('/productsDetail/:id', async (req, res) => {
     if (!product) {
       return res.status(404).send("Producto no encontrado.");
     }
-    res.render('productsDetail', { product });
+    const discount = (product.price * 0.85).toFixed(2);
+    res.render('productsDetail', { product, discount });
   
   } catch (error) {
     console.error("Error al obtener el producto:", error);
