@@ -1,5 +1,5 @@
 export const api = {
-	apiUrl: 'http://localhost:8080/api/',
+	apiUrl: 'https://shopynet.up.railway.app/api/',
 	productsEndpoint: 'products/',
 	cartsEndpoint: 'carts/',
 }
